@@ -1,4 +1,4 @@
-# FF-01-S5 — Smart Invoice Generator for Small Businesses
+# FF-01-S5 — Automated Invoice Generator for Small Businesses
 
 > Build Season 2026  
 > Team: Fast & Curious

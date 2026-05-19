@@ -1,619 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FF-01-S5 | Invoice Generator</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    FastInvoice | Smart Invoice Generator
+  </title>
 
   <style>
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
     }
 
-    body {
-      font-family: "Segoe UI", system-ui, sans-serif;
+    body{
+
+      font-family:
+        "Segoe UI",
+        system-ui,
+        sans-serif;
 
       background:
-        radial-gradient(circle at top left,
-        #eef2ff,
-        #f8fafc 45%);
+        radial-gradient(
+          circle at top left,
+          #eef2ff,
+          #f8fafc 45%
+        );
 
-      min-height: 100vh;
-      color: #1e1b4b;
+      min-height:100vh;
+
+      color:#1e1b4b;
     }
 
     /* ───────────────── TOPBAR ───────────────── */
 
-    .topbar {
-      background: rgba(255,255,255,.85);
+    .topbar{
 
-      backdrop-filter: blur(10px);
+      background:
+        rgba(255,255,255,.88);
 
-      border-bottom: 1px solid #e5e7eb;
+      backdrop-filter:
+        blur(12px);
 
-      padding: 0 2rem;
+      border-bottom:
+        1px solid #e5e7eb;
 
-      height: 62px;
+      height:64px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding:0 2rem;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
     }
 
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .logo-mark {
-      width: 34px;
-      height: 34px;
+    .logo-mark{
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width:36px;
+      height:36px;
 
-      border-radius: 10px;
+      border-radius:12px;
 
-      background: linear-gradient(
-        135deg,
-        #4f46e5,
-        #4338ca
-      );
+      display:flex;
+      align-items:center;
+      justify-content:center;
 
-      color: white;
+      background:
+        linear-gradient(
+          135deg,
+          #4f46e5,
+          #4338ca
+        );
 
-      font-weight: 700;
-      font-size: 16px;
+      color:white;
+
+      font-weight:800;
 
       box-shadow:
-        0 8px 18px rgba(79,70,229,.18);
+        0 10px 24px rgba(79,70,229,.18);
     }
 
-    .topbar-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: #1e1b4b;
+    .topbar-title{
+      font-size:16px;
+      font-weight:700;
     }
 
-    .topbar-badge {
-      font-size: 11px;
+    .topbar-badge{
 
-      background: #eef2ff;
-      color: #4f46e5;
+      background:#eef2ff;
 
-      padding: 5px 12px;
+      color:#4f46e5;
 
-      border-radius: 999px;
+      padding:6px 12px;
 
-      font-weight: 600;
+      border-radius:999px;
+
+      font-size:11px;
+
+      font-weight:700;
     }
 
     /* ───────────────── LAYOUT ───────────────── */
 
-    .layout {
-      display: grid;
+    .layout{
 
-      grid-template-columns: 1fr 310px;
+      max-width:1100px;
 
-      gap: 1.5rem;
+      margin:auto;
 
-      max-width: 1080px;
+      padding:1.5rem;
 
-      margin: 0 auto;
+      display:grid;
 
-      padding: 1.5rem;
+      grid-template-columns:
+        1fr 320px;
+
+      gap:1.5rem;
     }
 
-    .main {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
+    .main,
+    .sidebar{
+
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
     }
 
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+    /* ───────────────── CARD ───────────────── */
 
-    /* ───────────────── CARDS ───────────────── */
+    .card{
 
-    .card {
-      background: rgba(255,255,255,.92);
+      background:
+        rgba(255,255,255,.94);
 
-      border: 1px solid #e5e7eb;
+      border:
+        1px solid #e5e7eb;
 
-      border-radius: 16px;
+      border-radius:18px;
 
-      padding: 1.3rem;
-
-      transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        border-color .18s ease;
+      padding:1.35rem;
 
       box-shadow:
         0 2px 8px rgba(0,0,0,.03);
+
+      transition:
+        .18s ease;
     }
 
-    .card:hover {
-      transform: translateY(-2px);
+    .card:hover{
 
-      border-color: #d4d4ff;
+      transform:
+        translateY(-2px);
 
       box-shadow:
-        0 12px 28px rgba(79,70,229,.06),
-        0 4px 12px rgba(0,0,0,.04);
+        0 14px 28px rgba(79,70,229,.06);
     }
 
-    .card-label {
-      font-size: 11px;
-      font-weight: 700;
+    .card-label{
 
-      color: #4f46e5;
+      font-size:11px;
 
-      text-transform: uppercase;
+      font-weight:800;
 
-      letter-spacing: .8px;
+      letter-spacing:.8px;
 
-      margin-bottom: 1rem;
+      color:#4f46e5;
+
+      text-transform:uppercase;
+
+      margin-bottom:1rem;
     }
 
     /* ───────────────── FORM ───────────────── */
 
-    .grid2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: .9rem;
+    .grid2{
+
+      display:grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap:.9rem;
     }
 
-    .full {
-      grid-column: 1 / -1;
+    .full{
+      grid-column:1 / -1;
     }
 
-    .field {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+    .field{
+
+      display:flex;
+      flex-direction:column;
+      gap:6px;
     }
 
-    label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #374151;
+    label{
+
+      font-size:12px;
+
+      font-weight:600;
+
+      color:#374151;
     }
 
     input,
-    textarea {
-      width: 100%;
+    textarea{
 
-      border: 1.5px solid #e5e7eb;
+      width:100%;
 
-      border-radius: 10px;
+      border:
+        1.5px solid #e5e7eb;
 
-      padding: 11px 13px;
+      border-radius:12px;
 
-      font-size: 13px;
+      padding:11px 13px;
 
-      outline: none;
+      font-size:13px;
+
+      outline:none;
 
       transition:
-        border .15s ease,
-        box-shadow .15s ease,
-        background .15s ease;
-
-      background: white;
+        .15s ease;
     }
 
     input:focus,
-    textarea:focus {
+    textarea:focus{
 
-      border-color: #4f46e5;
+      border-color:#4f46e5;
 
       box-shadow:
         0 0 0 4px rgba(79,70,229,.12);
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 90px;
+    textarea{
+      resize:vertical;
+      min-height:90px;
     }
 
-    input[readonly] {
-      background: #f9fafb;
-      color: #6b7280;
+    input[readonly]{
+
+      background:#f9fafb;
+
+      color:#6b7280;
     }
 
     /* ───────────────── ITEMS ───────────────── */
 
-    .items-head {
-      display: grid;
+    .items-head{
 
-      grid-template-columns: 1fr 70px 110px 36px;
+      display:grid;
 
-      gap: 8px;
+      grid-template-columns:
+        1fr 70px 120px 40px;
 
-      font-size: 10px;
-      font-weight: 700;
+      gap:8px;
 
-      color: #9ca3af;
+      margin-bottom:8px;
 
-      text-transform: uppercase;
+      padding:0 4px;
 
-      letter-spacing: .6px;
+      font-size:10px;
 
-      margin-bottom: 8px;
+      font-weight:800;
 
-      padding: 0 4px;
+      letter-spacing:.6px;
+
+      color:#9ca3af;
+
+      text-transform:uppercase;
     }
 
-    .item-row {
+    .item-row{
 
-      display: grid;
+      display:grid;
 
-      grid-template-columns: 1fr 70px 110px 36px;
+      grid-template-columns:
+        1fr 70px 120px 40px;
 
-      gap: 8px;
+      gap:8px;
 
-      align-items: center;
+      margin-bottom:8px;
 
-      margin-bottom: 8px;
-
-      animation: fadeIn .22s ease;
+      animation:fadeIn .2s ease;
     }
 
-    @keyframes fadeIn {
+    @keyframes fadeIn{
 
-      from {
-        opacity: 0;
-        transform: translateY(8px);
+      from{
+        opacity:0;
+        transform:translateY(8px);
       }
 
-      to {
-        opacity: 1;
-        transform: translateY(0);
+      to{
+        opacity:1;
+        transform:translateY(0);
       }
     }
 
-    .rm-btn {
+    .rm-btn{
 
-      background: #fef2f2;
+      border:none;
 
-      border: none;
+      background:#fef2f2;
 
-      color: #ef4444;
+      color:#ef4444;
 
-      border-radius: 10px;
+      border-radius:12px;
 
-      width: 34px;
-      height: 40px;
+      font-size:18px;
 
-      font-size: 18px;
+      cursor:pointer;
 
-      cursor: pointer;
-
-      transition:
-        transform .15s ease,
-        background .15s ease;
+      transition:.15s ease;
     }
 
-    .rm-btn:hover {
-      background: #fee2e2;
-      transform: scale(1.05);
+    .rm-btn:hover{
+
+      background:#fee2e2;
+
+      transform:scale(1.04);
     }
 
-    .add-btn {
+    .add-btn{
 
-      width: 100%;
+      margin-top:8px;
 
-      margin-top: 6px;
+      width:100%;
 
-      border: 1.5px dashed #a5b4fc;
+      border:
+        1.5px dashed #a5b4fc;
 
-      background: #f5f3ff;
+      background:#f5f3ff;
 
-      color: #4f46e5;
+      color:#4f46e5;
 
-      border-radius: 12px;
+      border-radius:12px;
 
-      padding: 10px;
+      padding:11px;
 
-      font-size: 12px;
-      font-weight: 700;
+      font-size:12px;
 
-      cursor: pointer;
+      font-weight:700;
 
-      transition:
-        background .15s ease,
-        transform .15s ease;
+      cursor:pointer;
+
+      transition:.15s ease;
     }
 
-    .add-btn:hover {
-      background: #ede9fe;
-      transform: translateY(-1px);
+    .add-btn:hover{
+
+      background:#ede9fe;
+
+      transform:translateY(-1px);
     }
 
-    .tax-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .tax-row{
 
-      margin-top: 1rem;
+      margin-top:1rem;
+
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .tax-row label {
-      white-space: nowrap;
-      color: #6b7280;
-    }
-
-    .tax-row input {
-      max-width: 90px;
+    .tax-row input{
+      max-width:90px;
     }
 
     /* ───────────────── BUTTON ───────────────── */
 
-    .submit-btn {
+    .submit-btn{
 
-      background: linear-gradient(
-        135deg,
-        #4f46e5,
-        #4338ca
-      );
+      border:none;
 
-      color: white;
+      background:
+        linear-gradient(
+          135deg,
+          #4f46e5,
+          #4338ca
+        );
 
-      border: none;
+      color:white;
 
-      border-radius: 14px;
+      border-radius:14px;
 
-      padding: 15px;
+      padding:15px;
 
-      font-size: 14px;
-      font-weight: 700;
+      font-size:14px;
 
-      cursor: pointer;
+      font-weight:800;
 
-      width: 100%;
+      cursor:pointer;
 
-      letter-spacing: .3px;
-
-      transition:
-        transform .15s ease,
-        box-shadow .15s ease;
+      transition:.18s ease;
 
       box-shadow:
-        0 12px 24px rgba(79,70,229,.18);
+        0 14px 28px rgba(79,70,229,.18);
     }
 
-    .submit-btn:hover {
+    .submit-btn:hover{
 
-      transform: translateY(-1px);
+      transform:
+        translateY(-1px);
 
       box-shadow:
-        0 16px 30px rgba(79,70,229,.24);
-    }
-
-    .submit-btn:active {
-      transform: scale(.99);
+        0 18px 34px rgba(79,70,229,.24);
     }
 
     /* ───────────────── SUMMARY ───────────────── */
 
-    .summary-card {
+    .summary-card{
 
-      background: linear-gradient(
-        180deg,
-        #1e1b4b,
-        #312e81
-      );
+      background:
+        linear-gradient(
+          180deg,
+          #1e1b4b,
+          #312e81
+        );
 
-      border-radius: 18px;
+      border-radius:20px;
 
-      padding: 1.3rem;
+      padding:1.4rem;
 
-      color: white;
+      color:white;
 
       box-shadow:
-        0 16px 32px rgba(30,27,75,.16);
+        0 20px 36px rgba(30,27,75,.18);
     }
 
-    .summary-label {
+    .summary-label{
 
-      font-size: 11px;
+      font-size:11px;
 
-      font-weight: 700;
+      font-weight:800;
 
-      color: #a5b4fc;
+      letter-spacing:.8px;
 
-      text-transform: uppercase;
+      color:#a5b4fc;
 
-      letter-spacing: .8px;
+      text-transform:uppercase;
 
-      margin-bottom: 1rem;
+      margin-bottom:1rem;
     }
 
-    .s-row {
+    .s-row{
 
-      display: flex;
+      display:flex;
 
-      justify-content: space-between;
+      justify-content:space-between;
 
-      align-items: center;
+      align-items:center;
 
-      padding: 8px 0;
+      padding:8px 0;
 
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      border-bottom:
+        1px solid rgba(255,255,255,.08);
 
-      font-size: 13px;
+      font-size:13px;
     }
 
-    .s-row:last-child {
-      border-bottom: none;
+    .s-lbl{
+      color:#c7d2fe;
     }
 
-    .s-lbl {
-      color: #c7d2fe;
+    .s-val{
+      font-weight:700;
     }
 
-    .s-val {
-      font-weight: 600;
-      color: white;
+    .total-row{
+
+      display:flex;
+
+      justify-content:space-between;
+
+      align-items:center;
+
+      margin-top:1rem;
+
+      padding-top:1rem;
+
+      border-top:
+        1px solid rgba(255,255,255,.16);
     }
 
-    .total-row {
+    .total-row .s-val{
 
-      display: flex;
+      font-size:26px;
 
-      justify-content: space-between;
+      font-weight:800;
 
-      align-items: center;
-
-      margin-top: 1rem;
-
-      padding-top: 1rem;
-
-      border-top: 1px solid rgba(255,255,255,.16);
-    }
-
-    .total-row .s-lbl {
-      font-size: 14px;
-      font-weight: 600;
-      color: #a5b4fc;
-    }
-
-    .total-row .s-val {
-      font-size: 26px;
-      font-weight: 800;
-      color: #a7f3d0;
+      color:#a7f3d0;
     }
 
     /* ───────────────── STEPS ───────────────── */
 
-    .steps-card {
+    .steps-card{
 
-      background: #f0fdf4;
+      background:#f0fdf4;
 
-      border: 1px solid #bbf7d0;
+      border:
+        1px solid #bbf7d0;
 
-      border-radius: 16px;
+      border-radius:18px;
 
-      padding: 1.2rem;
+      padding:1.2rem;
     }
 
-    .steps-label {
+    .steps-label{
 
-      font-size: 11px;
+      font-size:11px;
 
-      font-weight: 700;
+      font-weight:800;
 
-      color: #15803d;
+      color:#15803d;
 
-      text-transform: uppercase;
+      text-transform:uppercase;
 
-      letter-spacing: .7px;
+      letter-spacing:.7px;
 
-      margin-bottom: .9rem;
+      margin-bottom:.9rem;
     }
 
-    .step {
+    .step{
 
-      display: flex;
+      display:flex;
 
-      align-items: flex-start;
+      gap:10px;
 
-      gap: 10px;
+      margin-bottom:.9rem;
 
-      margin-bottom: .9rem;
+      font-size:12px;
 
-      font-size: 12px;
+      line-height:1.5;
 
-      color: #166534;
-
-      line-height: 1.5;
+      color:#166534;
     }
 
-    .step:last-child {
-      margin-bottom: 0;
+    .step-num{
+
+      width:22px;
+      height:22px;
+
+      border-radius:50%;
+
+      background:#4f46e5;
+
+      color:white;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      font-size:10px;
+
+      font-weight:700;
+
+      flex-shrink:0;
     }
 
-    .step-num {
+    /* ───────────────── ERROR ───────────────── */
 
-      width: 22px;
-      height: 22px;
+    .error-banner{
 
-      border-radius: 50%;
+      max-width:1100px;
 
-      background: #4f46e5;
+      margin: 1rem auto 0;
 
-      color: white;
+      padding: 0 1.5rem;
+    }
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .error-banner div{
 
-      font-size: 10px;
-      font-weight: 700;
+      background:#fef2f2;
 
-      flex-shrink: 0;
+      border:1px solid #fecaca;
+
+      color:#dc2626;
+
+      padding:12px 14px;
+
+      border-radius:10px;
+
+      font-size:13px;
+
+      font-weight:600;
     }
 
     /* ───────────────── FOOTER ───────────────── */
 
-    footer {
+    footer{
 
-      text-align: center;
+      text-align:center;
 
-      padding: 1.5rem;
+      padding:1.5rem;
 
-      font-size: 11px;
+      font-size:11px;
 
-      color: #9ca3af;
+      color:#9ca3af;
     }
 
     /* ───────────────── MOBILE ───────────────── */
 
-    @media (max-width: 768px) {
+    @media(max-width:768px){
 
-      .layout {
-        grid-template-columns: 1fr;
-        padding: 1rem;
+      .layout{
+        grid-template-columns:1fr;
       }
 
-      .sidebar {
-        order: -1;
+      .sidebar{
+        order:-1;
       }
 
-      .grid2 {
-        grid-template-columns: 1fr;
+      .grid2{
+        grid-template-columns:1fr;
       }
 
-      .items-head {
-        display: none;
+      .items-head{
+        display:none;
       }
 
-      .item-row {
-        grid-template-columns: 1fr;
+      .item-row{
+        grid-template-columns:1fr;
       }
 
-      .rm-btn {
-        width: 100%;
-      }
-
-      .topbar {
-        padding: 0 1rem;
-      }
-
-      .topbar-title {
-        font-size: 14px;
+      .rm-btn{
+        height:42px;
       }
     }
 
   </style>
+
 </head>
 
 <body>
@@ -624,7 +655,9 @@
 
     <div class="topbar-left">
 
-      <div class="logo-mark">₹</div>
+      <div class="logo-mark">
+        ₹
+      </div>
 
       <span class="topbar-title">
         FastInvoice
@@ -638,13 +671,21 @@
 
   </div>
 
+  <!-- ───────────────── ERROR BANNER ───────────────── -->
+
+  {% if error %}
+  <div class="error-banner">
+    <div>⚠ {{ error }}</div>
+  </div>
+  {% endif %}
+
   <!-- ───────────────── FORM ───────────────── -->
 
   <form action="/generate" method="POST">
 
     <div class="layout">
 
-      <!-- ───────────────── MAIN ───────────────── -->
+      <!-- MAIN -->
 
       <div class="main">
 
@@ -660,29 +701,26 @@
 
             <div class="field">
               <label>Invoice Number</label>
-              <input type="text"
-                     value="INV-2026-104"
-                     readonly>
+
+              <input
+                type="text"
+                value="INV-2026-104"
+                readonly
+              >
             </div>
 
             <div class="field">
               <label>Status</label>
-              <input type="text"
-                     value="Draft Invoice"
-                     readonly>
-            </div>
 
-            <div class="field">
-              <label>Issue Date</label>
-              <input type="date">
-            </div>
-
-            <div class="field">
-              <label>Due Date</label>
-              <input type="date">
+              <input
+                type="text"
+                value="Draft Invoice"
+                readonly
+              >
             </div>
 
           </div>
+
         </div>
 
         <!-- Client -->
@@ -696,7 +734,10 @@
           <div class="grid2">
 
             <div class="field">
-              <label>Client Name *</label>
+
+              <label>
+                Client Name *
+              </label>
 
               <input
                 type="text"
@@ -705,9 +746,11 @@
                 required
                 oninput="updateSummary()"
               >
+
             </div>
 
             <div class="field">
+
               <label>Email</label>
 
               <input
@@ -715,9 +758,11 @@
                 name="client_email"
                 placeholder="client@example.com"
               >
+
             </div>
 
             <div class="field full">
+
               <label>Address</label>
 
               <input
@@ -725,12 +770,14 @@
                 name="client_address"
                 placeholder="City, State"
               >
+
             </div>
 
           </div>
+
         </div>
 
-        <!-- Line Items -->
+        <!-- Items -->
 
         <div class="card">
 
@@ -739,10 +786,12 @@
           </div>
 
           <div class="items-head">
+
             <span>Description</span>
             <span>Qty</span>
-            <span>Unit Price</span>
+            <span>Price</span>
             <span></span>
+
           </div>
 
           <div id="items-container">
@@ -761,18 +810,18 @@
                 type="number"
                 name="item_qty[]"
                 min="1"
-                value="1"
                 required
+                value="1"
                 oninput="updateSummary()"
               >
 
               <input
                 type="number"
                 name="item_price[]"
-                placeholder="0.00"
-                step="0.01"
                 min="0"
+                step="0.01"
                 required
+                placeholder="0.00"
                 oninput="updateSummary()"
               >
 
@@ -802,13 +851,12 @@
 
             <input
               type="number"
-              name="tax_rate"
               id="taxrate"
-              placeholder="18"
+              name="tax_rate"
+              value="0"
               min="0"
               max="100"
               step="0.1"
-              value="0"
               oninput="updateSummary()"
             >
 
@@ -826,20 +874,23 @@
 
           <textarea
             name="notes"
-            placeholder="e.g. Payment due within 7 days. UPI: yourname@upi"
+            placeholder="UPI, payment terms, thank you note..."
           ></textarea>
 
         </div>
 
         <!-- Submit -->
 
-        <button type="submit" class="submit-btn">
+        <button
+          type="submit"
+          class="submit-btn"
+        >
           Generate PDF Invoice →
         </button>
 
       </div>
 
-      <!-- ───────────────── SIDEBAR ───────────────── -->
+      <!-- SIDEBAR -->
 
       <div class="sidebar">
 
@@ -854,18 +905,31 @@
           <div id="summary-rows">
 
             <div class="s-row">
-              <span class="s-lbl" style="color:#94a3b8">
+
+              <span
+                class="s-lbl"
+                style="color:#94a3b8;"
+              >
                 Invoice summary will appear here
               </span>
+
             </div>
 
           </div>
 
           <div class="s-row">
-            <span class="s-lbl">Subtotal</span>
-            <span class="s-val" id="subtotal-val">
+
+            <span class="s-lbl">
+              Subtotal
+            </span>
+
+            <span
+              class="s-val"
+              id="subtotal-val"
+            >
               Rs. 0.00
             </span>
+
           </div>
 
           <div class="total-row">
@@ -874,7 +938,10 @@
               Total
             </span>
 
-            <span class="s-val" id="grand-total">
+            <span
+              class="s-val"
+              id="grand-total"
+            >
               Rs. 0.00
             </span>
 
@@ -891,35 +958,43 @@
           </div>
 
           <div class="step">
+
             <div class="step-num">1</div>
 
             <span>
-              Fill in client details and invoice metadata
+              Fill in invoice and client details
             </span>
+
           </div>
 
           <div class="step">
+
             <div class="step-num">2</div>
 
             <span>
-              Add invoice items with quantity and pricing
+              Add items with quantity and pricing
             </span>
+
           </div>
 
           <div class="step">
+
             <div class="step-num">3</div>
 
             <span>
-              Tax and totals update automatically in real-time
+              Live totals update automatically
             </span>
+
           </div>
 
           <div class="step">
+
             <div class="step-num">4</div>
 
             <span>
-              Generate and export a professional PDF invoice
+              Export a professional PDF instantly
             </span>
+
           </div>
 
         </div>
@@ -930,21 +1005,25 @@
 
   </form>
 
-  <!-- ───────────────── FOOTER ───────────────── -->
+  <!-- FOOTER -->
 
   <footer>
-    Built with Flask, HTML, CSS & by Team Fast & Curious
+    Built with Flask, ReportLab & SQLite • Team Fast & Curious
   </footer>
 
   <!-- ───────────────── SCRIPT ───────────────── -->
 
   <script>
 
-    function addRow() {
+    function addRow(){
 
-      const c = document.getElementById('items-container');
+      const c =
+        document.getElementById(
+          'items-container'
+        );
 
-      const row = document.createElement('div');
+      const row =
+        document.createElement('div');
 
       row.className = 'item-row';
 
@@ -954,6 +1033,7 @@
           type="text"
           name="item_name[]"
           placeholder="Item description"
+          required
           oninput="updateSummary()"
         >
 
@@ -961,6 +1041,7 @@
           type="number"
           name="item_qty[]"
           min="1"
+          required
           value="1"
           oninput="updateSummary()"
         >
@@ -968,9 +1049,10 @@
         <input
           type="number"
           name="item_price[]"
-          placeholder="0.00"
-          step="0.01"
           min="0"
+          step="0.01"
+          required
+          placeholder="0.00"
           oninput="updateSummary()"
         >
 
@@ -986,11 +1068,14 @@
       c.appendChild(row);
     }
 
-    function removeRow(btn) {
+    function removeRow(btn){
 
-      const rows = document.querySelectorAll('.item-row');
+      const rows =
+        document.querySelectorAll(
+          '.item-row'
+        );
 
-      if (rows.length > 1) {
+      if(rows.length > 1){
 
         btn.closest('.item-row').remove();
 
@@ -998,9 +1083,12 @@
       }
     }
 
-    function updateSummary() {
+    function updateSummary(){
 
-      const rows = document.querySelectorAll('.item-row');
+      const rows =
+        document.querySelectorAll(
+          '.item-row'
+        );
 
       let subtotal = 0;
 
@@ -1008,7 +1096,8 @@
 
       rows.forEach(r => {
 
-        const inp = r.querySelectorAll('input');
+        const inp =
+          r.querySelectorAll('input');
 
         const name =
           inp[0].value || 'Item';
@@ -1023,7 +1112,7 @@
 
         subtotal += line;
 
-        if (price > 0) {
+        if(price > 0){
 
           html += `
             <div class="s-row">
@@ -1039,18 +1128,25 @@
             </div>
           `;
         }
+
       });
 
       const tax =
-        (parseFloat(
-          document.getElementById('taxrate').value
-        ) || 0) / 100;
+        (
+          parseFloat(
+            document.getElementById(
+              'taxrate'
+            ).value
+          ) || 0
+        ) / 100;
 
-      const taxAmt = subtotal * tax;
+      const taxAmt =
+        subtotal * tax;
 
-      const total = subtotal + taxAmt;
+      const total =
+        subtotal + taxAmt;
 
-      if (tax > 0) {
+      if(tax > 0){
 
         html += `
           <div class="s-row">
@@ -1067,7 +1163,9 @@
         `;
       }
 
-      document.getElementById('summary-rows').innerHTML =
+      document.getElementById(
+        'summary-rows'
+      ).innerHTML =
 
         html ||
 
@@ -1076,7 +1174,7 @@
 
             <span
               class="s-lbl"
-              style="color:#94a3b8"
+              style="color:#94a3b8;"
             >
               Invoice summary will appear here
             </span>
@@ -1084,10 +1182,16 @@
           </div>
         `;
 
-      document.getElementById('subtotal-val').textContent =
+      document.getElementById(
+        'subtotal-val'
+      ).textContent =
+
         `Rs. ${subtotal.toFixed(2)}`;
 
-      document.getElementById('grand-total').textContent =
+      document.getElementById(
+        'grand-total'
+      ).textContent =
+
         `Rs. ${total.toFixed(2)}`;
     }
 

@@ -8,8 +8,8 @@
 ## 👥 Team Members
 
 - Yusra Fatima — Team Lead
-- Samreen Fatima
 - Maimuna Afrah
+- Samreen Fatima
 
 ---
 

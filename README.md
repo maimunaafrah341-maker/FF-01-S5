@@ -83,7 +83,7 @@ An overview of data transformation across the application layers:
 
 <div align="center">
 
-![System Architecture](architecture.png)
+<img src="architecture.png" alt="System Architecture" width="500">
 
 </div>
 

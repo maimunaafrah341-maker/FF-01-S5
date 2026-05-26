@@ -1,0 +1,3 @@
+- Yusra Fatima — Team Lead, Architecture, Documentation
+- Maimuna Afrah — Full-Stack Development
+- Samreen Fatima — Research, SDG Mapping, SDLC report
